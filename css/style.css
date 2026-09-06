@@ -18,7 +18,6 @@
   --color-border:       #E4E1D9;
   /* Color: derived (これ以外を作らない) */
   --color-primary-dark: #2E4833;            /* hover only */
-  --color-accent-soft:  #EFE7D9;            /* Works tag bg only */
   --overlay-hero:       rgba(29,35,30,.38);
 
   /* Spacing scale (この9値のみ) */
@@ -51,38 +50,44 @@
   --font-jp: "Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic",Meiryo,sans-serif;
   --font-en: "Inter","Helvetica Neue",Arial,var(--font-jp);
 
-  /* Type scale — mobile first (DESIGN.md §3 / §10) */
-  --fs-h1: 1.875rem;      /* 30 */
-  --fs-h2: 1.5rem;        /* 24 */
-  --fs-h3: 1.0625rem;     /* 17 */
-  --fs-h4: 0.9375rem;     /* 15 */
-  --fs-body: 1rem;        /* 16 */
-  --fs-small: 0.8125rem;  /* 13 */
-  --fs-caption: 0.75rem;  /* 12 */
+  /* Type scale — mobile first (DESIGN.md §3 / §10)
+     見出しは 600 中心・巨大化しない。地域密着の個人店として自然なサイズ感。 */
+  --fs-h1: 2.0625rem;    /* 33 */
+  --fs-h2: 1.625rem;     /* 26 */
+  --fs-h3: 1.25rem;      /* 20 */
+  --fs-h4: 1rem;         /* 16 */
+  --fs-body: 1rem;       /* 16 */
+  --fs-small: 0.8125rem; /* 13 */
+  --fs-caption: 0.75rem; /* 12 */
+
+  /* Section rhythm（機械的な均一余白を避ける / DESIGN.md §4） */
+  --section-y-airy: 80px;
 }
 
 @media (min-width: 641px){          /* Tablet */
   :root{
-    --fs-h1: 2.25rem;    /* 36 */
+    --fs-h1: 2.5rem;     /* 40 */
     --fs-h2: 1.75rem;    /* 28 */
-    --fs-h3: 1.125rem;   /* 18 */
+    --fs-h3: 1.25rem;    /* 20 */
     --pad-x: 32px;
     --section-y: 80px;
+    --section-y-airy: 104px;
     --header-h: 72px;
   }
 }
 
 @media (min-width: 1025px){         /* Desktop */
   :root{
-    --fs-h1: 2.75rem;    /* 44 */
+    --fs-h1: 3.25rem;    /* 52 */
     --fs-h2: 2rem;       /* 32 */
-    --fs-h3: 1.1875rem;  /* 19 */
+    --fs-h3: 1.375rem;   /* 22 */
     --fs-h4: 1rem;       /* 16 */
     --fs-body: 1.0625rem;/* 17 */
     --fs-small: 0.875rem;/* 14 */
-    --fs-caption: 0.78rem;/* 12.5 */
+    --fs-caption: 0.8125rem;/* 13 */
     --pad-x: 40px;
     --section-y: 96px;
+    --section-y-airy: 124px;
     --header-h: 76px;
   }
 }
@@ -109,32 +114,38 @@ body{
 @media (min-width:1025px){ body{ padding-bottom:0; } }
 
 /* ---------- Typography base (DESIGN.md §3) ---------- */
-h1,h2,h3,h4{ color:var(--color-text); font-weight:700; }
-h1{ font-size:var(--fs-h1); line-height:1.35; letter-spacing:.02em; text-wrap:balance; }
-h2{ font-size:var(--fs-h2); line-height:1.4;  letter-spacing:.03em; text-wrap:balance; }
-h3{ font-size:var(--fs-h3); line-height:1.5;  letter-spacing:.02em; }
-h4{ font-size:var(--fs-h4); line-height:1.6;  letter-spacing:.04em; font-weight:500; }
-p{ line-height:1.9; letter-spacing:.02em; line-break:strict; overflow-wrap:break-word; }
+h1,h2,h3,h4{
+  color:var(--color-text);
+  font-weight:600;
+  word-break:normal;
+  line-break:strict;
+  text-wrap:balance;
+}
+h1{ font-size:var(--fs-h1); line-height:1.42; letter-spacing:.01em; }
+h2{ font-size:var(--fs-h2); line-height:1.4;  letter-spacing:.02em; }
+h3{ font-size:var(--fs-h3); line-height:1.55; letter-spacing:.02em; text-wrap:pretty; }
+h4{ font-size:var(--fs-h4); line-height:1.7;  letter-spacing:.02em; font-weight:500; }
+p{ line-height:1.9; letter-spacing:.02em; line-break:strict; word-break:normal; overflow-wrap:break-word; text-wrap:pretty; }
+@media (min-width:1025px){ p{ line-height:1.85; } }
 
+/* 意味のまとまりを保つための改行補助。<br> の乱用は避け、これで折り位置を制御する */
 .nowrap{ white-space:nowrap; }
 
-/* 意味のある英字ラベルのみ・あしらい扱い (DESIGN.md §12-8) */
+/* 英字ラベルは補助情報。日本語見出しより目立たせない (DESIGN.md §12-8) */
 .eyebrow{
-  display:inline-flex; align-items:center; gap:10px;
+  display:inline-flex; align-items:center; gap:8px;
   font-family:var(--font-en);
   font-size:var(--fs-caption);
-  font-weight:600;
-  letter-spacing:.14em;
+  font-weight:500;
+  letter-spacing:.1em;
   text-transform:uppercase;
   line-height:1;
-  color:var(--color-primary);
+  color:var(--color-text-sub);
   margin-bottom:var(--space-3);
 }
 .eyebrow::before{
-  content:""; width:24px; height:2px; background:var(--color-primary);
+  content:""; width:20px; height:1px; background:var(--color-text-sub); opacity:.6;
 }
-.eyebrow--light{ color:var(--color-accent); }
-.eyebrow--light::before{ background:var(--color-accent); }
 
 /* ---------- Layout ---------- */
 .container{
@@ -147,21 +158,23 @@ p{ line-height:1.9; letter-spacing:.02em; line-break:strict; overflow-wrap:break
 
 .section{ padding-block:var(--section-y); }
 .section--surface{ background:var(--color-surface); }
-.section--lg{ padding-block:calc(var(--section-y) * 1.25); }
+.section--lg{ padding-block:calc(var(--section-y) * 1.12); }   /* CTA帯：やや詰めて強調 */
+.section--airy{ padding-block:var(--section-y-airy); }         /* 代表紹介：前後にゆとり */
+.section--airy-top{ padding-top:var(--section-y-airy); }       /* About / Reason：入りだけ広げる */
 
 .section-head{ margin-bottom:var(--space-6); }
 .section-head .eyebrow{ margin-bottom:var(--space-3); }
 
-/* 本文の横幅を広げすぎない (DESIGN.md §11) */
-.prose{ max-width:38em; }
-.prose p + p{ margin-top:1.25em; }
+/* 本文の横幅を広げすぎない：日本語で1行 約28〜34字 (DESIGN.md §11) */
+.prose{ max-width:34em; }
+.prose p + p{ margin-top:1.4em; }
 .prose p{ text-wrap:pretty; }
 
 /* section アンカーの固定ヘッダー分オフセット */
 section[id], .header{ scroll-margin-top:calc(var(--header-h) + 16px); }
 
-.pc-only{ display:none; }
-@media (min-width:1025px){ .pc-only{ display:inline; } }
+/* H1 は巨大化させない：1行 約9〜13字で2行に収める */
+.hero h1{ max-width:44rem; }
 
 /* ---------- Buttons / CTA (DESIGN.md §7) ---------- */
 .btn{
@@ -324,9 +337,9 @@ body.nav-open .nav-toggle__bar:nth-child(3){ transform:translateY(-7px) rotate(-
 /* ---------- About（画像左＋文右 / 2カラム） ---------- */
 .about__grid{ display:grid; gap:var(--space-5); }
 @media (min-width:769px){
-  .about__grid{ grid-template-columns:0.9fr 1.1fr; gap:var(--space-6); align-items:center; }
+  .about__grid{ grid-template-columns:0.85fr 1.15fr; gap:var(--space-6); align-items:center; }
 }
-.about__body h2{ margin-bottom:var(--space-4); }
+.about__body h2{ margin-bottom:var(--space-5); }
 
 /* ---------- Service（2×2 カード / DESIGN.md §5） ---------- */
 .card-grid{ display:grid; gap:var(--space-3); }
@@ -340,13 +353,15 @@ body.nav-open .nav-toggle__bar:nth-child(3){ transform:translateY(-7px) rotate(-
   padding:var(--space-4);
 }
 @media (min-width:1025px){ .card{ padding:var(--space-5); } }
-.card h3{ margin-bottom:var(--space-3); }
+.card h3{ margin-bottom:20px; }
+.card__list{ display:flex; flex-direction:column; gap:10px; }
 .card__list li{
   position:relative; padding-left:18px;
-  font-size:var(--fs-small); line-height:1.9; color:var(--color-text-sub);
+  font-size:0.9375rem;              /* 15px：箇条書きを小さくしすぎない */
+  line-height:1.7; color:var(--color-text-sub);
 }
 .card__list li::before{
-  content:""; position:absolute; left:0; top:.85em;
+  content:""; position:absolute; left:0; top:.72em;
   width:7px; height:1px; background:var(--color-primary);
 }
 
@@ -359,17 +374,17 @@ body.nav-open .nav-toggle__bar:nth-child(3){ transform:translateY(-7px) rotate(-
 }
 .note--plain{ border-left-color:var(--color-border); }
 
-/* ---------- Reason（2×2 数字バッジ / カードとは別処理 / DESIGN.md §12-6） ---------- */
-.reasons{ display:grid; gap:var(--space-5); }
+/* ---------- Reason（数字は小さく・見出しが主役 / カードにしない / DESIGN.md §12-6） ---------- */
+.reasons{ display:grid; gap:var(--space-6); }
 @media (min-width:700px){
-  .reasons{ grid-template-columns:repeat(2,1fr); gap:var(--space-6) var(--space-6); }
+  .reasons{ grid-template-columns:repeat(2,1fr); gap:var(--space-7) var(--space-6); }
 }
-.reason{ padding-top:var(--space-4); border-top:2px solid var(--color-primary); }
+.reason{ max-width:26em; padding-top:var(--space-4); border-top:2px solid var(--color-primary); }
 .reason__num{
-  font-family:var(--font-en); font-weight:600; font-size:var(--fs-h2);
-  line-height:1; letter-spacing:.04em; color:var(--color-primary);
+  font-family:var(--font-en); font-weight:600; font-size:1.125rem;   /* 18px：主役にしない */
+  line-height:1; letter-spacing:.06em; color:var(--color-primary);
 }
-.reason h3{ margin:var(--space-2) 0; }
+.reason h3{ margin:10px 0 var(--space-2); }
 .reason p{ font-size:var(--fs-small); color:var(--color-text-sub); }
 
 /* ---------- Works（ページ内で唯一の3カラム / DESIGN.md §5） ---------- */
@@ -381,51 +396,68 @@ body.nav-open .nav-toggle__bar:nth-child(3){ transform:translateY(-7px) rotate(-
 .work__figure .ph{ border-radius:0; border:0; transition:transform var(--dur-img) ease; }
 .work:hover .work__figure .ph{ transform:scale(1.03); }
 
+/* 地域・タイトル・期間・価格で情報階層を分ける（pill にしない） */
 .work__tag{
-  display:inline-block; margin-top:var(--space-3);
-  padding:4px 12px;
-  border:1px solid var(--color-border); border-radius:999px;   /* pill は Works タグのみ */
-  background:var(--color-accent-soft);
-  font-size:var(--fs-caption); letter-spacing:.06em; color:var(--color-text-sub);
+  display:block; margin:var(--space-3) 0 6px;
+  font-size:0.8125rem; letter-spacing:.04em; color:var(--color-text-sub);
 }
-.work h3{ margin:var(--space-2) 0; }
-.work__meta{ display:flex; flex-direction:column; gap:6px; font-size:var(--fs-small); color:var(--color-text-sub); }
-.work__meta strong{ font-family:var(--font-en); font-weight:600; color:var(--color-text); }
+.work h3{ margin:2px 0 10px; }
+.work__meta{ display:flex; flex-direction:column; gap:var(--space-2); font-size:0.875rem; color:var(--color-text-sub); }
+.work__meta strong{ font-weight:500; color:var(--color-text); }
+.work__price{ color:var(--color-text); }
+.work__price strong{ font-size:0.9375rem; font-weight:600; }
 
 /* ---------- Staff（文左＋画像右 / 2カラムを反転） ---------- */
 .staff__grid{ display:grid; gap:var(--space-5); }
 .staff__figure{ order:-1; }              /* mobile: 画像を先に */
-.staff__body h2{ margin-bottom:var(--space-4); }
+.staff__body h2{ margin-bottom:var(--space-5); }
 @media (min-width:769px){
-  .staff__grid{ grid-template-columns:1.1fr 0.9fr; gap:var(--space-6); align-items:center; }
+  .staff__grid{ grid-template-columns:1.15fr 0.85fr; gap:var(--space-6); align-items:center; }
   .staff__figure{ order:0; }
 }
-.staff__name{ margin-top:var(--space-4); font-weight:700; letter-spacing:.04em; }
-.staff__name span{ margin-right:10px; font-size:var(--fs-small); font-weight:500; color:var(--color-text-sub); }
+.staff__name{
+  margin-top:var(--space-5);
+  font-size:1.125rem; font-weight:600; letter-spacing:.04em; color:var(--color-text);
+}
+.staff__name span{                       /* 「代表」を名前と視覚的に分ける */
+  display:block; margin-bottom:4px;
+  font-size:var(--fs-caption); font-weight:500; letter-spacing:.08em;
+  color:var(--color-text-sub);
+}
 
-/* ---------- Flow（横並びステップ / ラベルのため中央可） ---------- */
-.flow{ display:grid; gap:var(--space-3); }
-@media (min-width:800px){ .flow{ grid-auto-flow:column; grid-auto-columns:1fr; gap:var(--space-2); } }
+/* ---------- Flow（カードにしない：STEP＋番号＋項目の素直な並び） ---------- */
+.flow{ display:grid; gap:var(--space-5); }
+@media (min-width:800px){
+  .flow{ grid-auto-flow:column; grid-auto-columns:1fr; gap:var(--space-3); align-items:start; }
+}
 
 .step{
   position:relative;
-  padding:var(--space-4) var(--space-3);
-  background:var(--color-bg);
-  border:1px solid var(--color-border);
-  border-radius:var(--radius-md);
-  text-align:center;
+  border-top:1px solid var(--color-border);   /* mobile：細い区切りのみ */
+  padding-top:var(--space-3);
 }
-.step__num{ font-family:var(--font-en); font-size:.75rem; font-weight:600; letter-spacing:.1em; color:var(--color-primary); }
-.step p:not(.step__num){ margin-top:var(--space-2); font-size:var(--fs-small); font-weight:500; color:var(--color-text); line-height:1.6; }
+@media (min-width:800px){
+  .step{ border-top:0; padding-top:0; text-align:center; }
+}
+.step__num{
+  display:block;
+  font-family:var(--font-en); font-size:.75rem; font-weight:500;
+  letter-spacing:.12em; color:var(--color-text-sub);
+}
+.step p:not(.step__num){
+  margin-top:6px;
+  font-size:var(--fs-body); font-weight:500; color:var(--color-text); line-height:1.6;
+}
 .step:not(:last-child)::after{
   content:"→"; position:absolute;
-  left:50%; bottom:-13px; transform:translateX(-50%) rotate(90deg);
-  color:var(--color-text-sub); font-size:.9rem;
+  left:0; bottom:-30px; font-size:.8rem;
+  color:var(--color-text-sub); opacity:.55;
+  transform:rotate(90deg);
 }
 @media (min-width:800px){
   .step:not(:last-child)::after{
-    left:auto; right:-9px; bottom:auto; top:50%;
-    transform:translateY(-50%);
+    left:auto; right:-11px; bottom:auto; top:1px;
+    transform:none;
   }
 }
 
@@ -438,12 +470,12 @@ body.nav-open .nav-toggle__bar:nth-child(3){ transform:translateY(-7px) rotate(-
   font-size:var(--fs-small); font-weight:500; letter-spacing:.04em;
 }
 
-/* ---------- CTA band（濃色 / 中央揃えはこの1帯のみ） ---------- */
+/* ---------- CTA band（濃色・中央・短く強調。Contact とは役割で差をつける） ---------- */
 .cta{ background:var(--color-secondary); color:#fff; text-align:center; }
-.cta h2{ color:#fff; }
-.cta p{ max-width:32em; margin:var(--space-4) auto 0; color:rgba(255,255,255,.85); }
-.cta__actions{ display:flex; flex-direction:column; align-items:center; gap:var(--space-3); margin-top:var(--space-5); }
-.cta__tel{ font-family:var(--font-en); font-weight:600; font-size:var(--fs-h2); letter-spacing:.02em; color:#fff; text-decoration:none; }
+.cta h2{ color:#fff; max-width:18em; margin-inline:auto; }
+.cta p{ max-width:30em; margin:var(--space-4) auto 0; color:rgba(255,255,255,.85); }
+.cta__actions{ display:flex; flex-direction:column; align-items:center; gap:var(--space-3); margin-top:var(--space-6); }
+.cta__tel{ font-family:var(--font-en); font-weight:600; font-size:1.375rem; letter-spacing:.02em; color:#fff; text-decoration:none; }
 .cta__hours{ font-size:var(--fs-small); color:rgba(255,255,255,.7); }
 
 /* ---------- Contact（フォーム＋会社情報 / 2カラム） ---------- */
